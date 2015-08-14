@@ -1,0 +1,11 @@
+1 1.0 w ah n
+2 1.0 t uw
+3 1.0 th r iy
+4 1.0 f ao r
+5 1.0 f ay v
+6 1.0 s ih k s
+7 1.0 s eh v ah n
+8 1.0 ey t
+9 1.0 n ay n
+Z 1.0 z iy r ow
+O 1.0 ow

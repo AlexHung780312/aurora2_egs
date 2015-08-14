@@ -1,0 +1,121 @@
+{
+  "dest_chksum": {
+    "L.fst": "d14895e496fe30a63a6efd3b96fc2102",
+    "L_disambig.fst": "57080f71f891411e8ff02626cf352073",
+    "dict/extra_questions.txt": "f125ae0143869ab1a826e1036050fff9",
+    "dict/lexicon.txt": "a39dfcf817ea8bbc35082806cf575958",
+    "dict/lexiconp.txt": "4658a5c412b9fd00dc1e010f76c479c4",
+    "dict/nonsilence_phones.txt": "14b744e1b3b517b5d8b269f4c1a040db",
+    "dict/optional_silence.txt": "afb1c6c9240586b23a567660a6a3e0b3",
+    "dict/silence_phones.txt": "afb1c6c9240586b23a567660a6a3e0b3",
+    "oov.int": "b026324c6904b2a9cb4b88d6d61c81d1",
+    "oov.txt": "b026324c6904b2a9cb4b88d6d61c81d1",
+    "phones.txt": "6b87faee74b125671b8756d083310700",
+    "phones/align_lexicon.int": "9875b744595fcc5c9ba2f45eafff6a88",
+    "phones/align_lexicon.txt": "72cc0326af0dbeb3101530dcbe6f786c",
+    "phones/context_indep.csl": "7748f9d36a2c589afe51bbf929153b3a",
+    "phones/context_indep.int": "a7b1ac3a2b072f71a8e0d463bf4eb822",
+    "phones/context_indep.txt": "2a7c0154cb040afb2ef0cdf0e06c51f5",
+    "phones/disambig.csl": "a9cb7dc68a5b583ac397ba7064e71274",
+    "phones/disambig.int": "c9523d1f5b431c6d681fe2b9d0ae98ba",
+    "phones/disambig.txt": "ad6fb0eacc3b23d6c6d6cb468178bc44",
+    "phones/extra_questions.int": "6dd1427e27ea71684821dead14a02b84",
+    "phones/extra_questions.txt": "27cb7d59b4a5ae16935363e27f29d4a6",
+    "phones/nonsilence.csl": "21c74b94b3d74f8cfebb27ee0264d4fb",
+    "phones/nonsilence.int": "9856465482d67fe73d7bb48b5c5ae5c2",
+    "phones/nonsilence.txt": "2ed6f67fd5450ed81c1c398af55a51f2",
+    "phones/optional_silence.csl": "b026324c6904b2a9cb4b88d6d61c81d1",
+    "phones/optional_silence.int": "b026324c6904b2a9cb4b88d6d61c81d1",
+    "phones/optional_silence.txt": "afb1c6c9240586b23a567660a6a3e0b3",
+    "phones/roots.int": "54f81604c1f925bc291b3397757dfe29",
+    "phones/roots.txt": "f9a62837878fd5221e06ab7bc741f798",
+    "phones/sets.int": "6f9e9c05d6bdf20ba54946540f38bdfe",
+    "phones/sets.txt": "be56ecdf53b65b59251411d0b5bc1884",
+    "phones/silence.csl": "7748f9d36a2c589afe51bbf929153b3a",
+    "phones/silence.int": "a7b1ac3a2b072f71a8e0d463bf4eb822",
+    "phones/silence.txt": "2a7c0154cb040afb2ef0cdf0e06c51f5",
+    "phones/word_boundary.int": "8dbe5ffca100ef24882132ca5335574f",
+    "phones/word_boundary.txt": "89b3674fba24e9571b9f3c34ad430f01",
+    "topo": "0d769b450e4f17d95a829e5338c78842",
+    "words.txt": "9098a85c2ddfbada2b09c1b0fef94375"
+  },
+  "file_info": {
+    "diskres_class": "AsiyahGashmi.things.lang_info.LangInfo",
+    "file_classes": {
+      "150303_prepare_aurora2": 1
+    },
+    "is_outdated": false,
+    "lastaccess": "2015.03.03-10:34:57",
+    "size": {
+      "L.fst": 1118,
+      "L_disambig.fst": 1162,
+      "dict/extra_questions.txt": 135,
+      "dict/lexicon.txt": 102,
+      "dict/lexiconp.txt": 146,
+      "dict/nonsilence_phones.txt": 48,
+      "dict/optional_silence.txt": 4,
+      "dict/silence_phones.txt": 4,
+      "oov.int": 2,
+      "oov.txt": 2,
+      "phones.txt": 626,
+      "phones/align_lexicon.int": 151,
+      "phones/align_lexicon.txt": 206,
+      "phones/context_indep.csl": 10,
+      "phones/context_indep.int": 10,
+      "phones/context_indep.txt": 28,
+      "phones/disambig.csl": 6,
+      "phones/disambig.int": 6,
+      "phones/disambig.txt": 6,
+      "phones/extra_questions.int": 830,
+      "phones/extra_questions.txt": 1329,
+      "phones/nonsilence.csl": 224,
+      "phones/nonsilence.int": 224,
+      "phones/nonsilence.txt": 344,
+      "phones/optional_silence.csl": 2,
+      "phones/optional_silence.int": 2,
+      "phones/optional_silence.txt": 4,
+      "phones/roots.int": 494,
+      "phones/roots.txt": 632,
+      "phones/sets.int": 234,
+      "phones/sets.txt": 372,
+      "phones/silence.csl": 10,
+      "phones/silence.int": 10,
+      "phones/silence.txt": 28,
+      "phones/word_boundary.int": 822,
+      "phones/word_boundary.txt": 960,
+      "topo": 1147,
+      "words.txt": 75
+    },
+    "timestamp": "2015.03.03-10:34:57",
+    "totalsize": 11515
+  },
+  "src_chksum": {
+    "_additional": {},
+    "_advjobchksum": {
+      "MakeLang.go": "e6ab5dea0caba8462b4c836e2bca046369a0f3aa8717decacd10d410df4e57e1"
+    },
+    "_advjobname": "AsiyahGashmi.lex.make_lang.MakeLang",
+    "_parameters": {
+      "nonsil_state": 3,
+      "oov": "1",
+      "sil_prob": 0.5,
+      "sil_state": 5
+    },
+    "lex": {
+      "lex": "4658a5c412b9fd00dc1e010f76c479c4",
+      "param.json": "22c0557f9d2b2a943847224bbb5aa6e4",
+      "word2lang": "7f8736c0c7135f8516d3c03ea317c42b"
+    },
+    "pset": {
+      "extra_questions.txt": "f125ae0143869ab1a826e1036050fff9",
+      "nonsilence_phones.txt": "14b744e1b3b517b5d8b269f4c1a040db",
+      "param.json": "8409fa613584afcb82f9b335a3b0e587",
+      "silence_phones.txt": "afb1c6c9240586b23a567660a6a3e0b3"
+    }
+  },
+  "versions": {
+    "AsiyahGashmi": "v0.1-41-gedc7a4a",
+    "Netzach": "v0.1-42-g6485a2e",
+    "Tiphereth": "v0.1-42-gebd8659"
+  }
+}

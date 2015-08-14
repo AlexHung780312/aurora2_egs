@@ -1,0 +1,12 @@
+<eps> <eps> SIL
+1 1 w_B ah_I n_E
+2 2 t_B uw_E
+3 3 th_B r_I iy_E
+4 4 f_B ao_I r_E
+5 5 f_B ay_I v_E
+6 6 s_B ih_I k_I s_E
+7 7 s_B eh_I v_I ah_I n_E
+8 8 ey_B t_E
+9 9 n_B ay_I n_E
+O O ow_S
+Z Z z_B iy_I r_I ow_E
