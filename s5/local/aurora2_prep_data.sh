@@ -25,7 +25,7 @@ for f in `find $rootdir/TRAIN/CLEAN -name '*.08'`; do
   key="Aurora2.TR.Clean_${uttr}";
   spk=`echo ${uttr} | awk 'BEGIN{FS="_";}{print $1;}'`
   text=`echo ${uttr} | awk 'BEGIN{FS="_";}{print $2;}' | sed 's/[A,B]//g' | sed -e 's/\(.\)/\1 /g'`
-  echo "$key sox --endian $endian -r 16000 -b 16 -t raw -e signed-integer $f -t wav --endian little - |" >> $dir/wav.scp
+  echo "$key sox --endian $endian -r 8000 -b 16 -t raw -e signed-integer $f -t wav --endian little - |" >> $dir/wav.scp
   echo "$key $spk" >> $dir/utt2spk
   echo "$key $text" >> $dir/text
 done
@@ -43,7 +43,7 @@ for f in `find $d -name '*.08'`; do
   key="Aurora2.TR.Clean_${uttr}";
   spk=`echo ${uttr} | awk 'BEGIN{FS="_";}{print $1;}'`
   text=`echo ${uttr} | awk 'BEGIN{FS="_";}{print $2;}' | sed 's/[A,B]//g' | sed -e 's/\(.\)/\1 /g'`
-  echo "$key sox --endian $endian -r 16000 -b 16 -t raw -e signed-integer $f -t wav --endian little - |" >> $dir/wav.scp
+  echo "$key sox --endian $endian -r 8000 -b 16 -t raw -e signed-integer $f -t wav --endian little - |" >> $dir/wav.scp
   echo "$key $spk" >> $dir/utt2spk
   echo "$key $text" >> $dir/text
 done
@@ -52,10 +52,11 @@ done
 # test
 for t in A B C; do
   for n in 1 2 3 4; do
-  	dir=data/Aurora2.TS.${t}${n}C
-  	echo $dir;
-  	mkdir -p $dir
-  	[ -f $dir/wav.scp ] && rm $dir/wav.scp;
+    [ "$t" == "C" ] && [ $n -ge 3 ] && break;
+    dir=data/Aurora2.TS.${t}${n}C
+    echo $dir;
+    mkdir -p $dir
+    [ -f $dir/wav.scp ] && rm $dir/wav.scp;
     [ -f $dir/utt2spk ] && rm $dir/utt2spk;
     [ -f $dir/text ] && rm $dir/text;
     wavdir="$rootdir/TEST${t}/CLEAN${n}"
@@ -64,12 +65,12 @@ for t in A B C; do
       key=`echo Aurora2.TS.${t}${n}C_${uttr} | sed 's/\+//g'`;
       spk=`echo ${uttr} | awk 'BEGIN{FS="_";}{print $1;}'`
       text=`echo ${uttr} | awk 'BEGIN{FS="_";}{print $2;}' | sed 's/[A,B]//g' | sed -e 's/\(.\)/\1 /g'`
-      echo "$key sox --endian $endian -r 16000 -b 16 -t raw -e signed-integer $f -t wav --endian little - |" >> $dir/wav.scp
+      echo "$key sox --endian $endian -r 8000 -b 16 -t raw -e signed-integer $f -t wav --endian little - |" >> $dir/wav.scp
       echo "$key $spk" >> $dir/utt2spk
       echo "$key $text" >> $dir/text
     done
 
-    for snr in -5 +0 +5 +10 +20; do
+    for snr in -5 +0 +5 +10 +15 +20; do
       dir=data/Aurora2.TS.${t}${n}${snr}
       echo $dir;
       mkdir -p $dir
@@ -82,7 +83,7 @@ for t in A B C; do
         key=`echo Aurora2.TS.${t}${n}${snr}_${uttr} | sed 's/\+//g'`;
         spk=`echo ${uttr} | awk 'BEGIN{FS="_";}{print $1;}'`
         text=`echo ${uttr} | awk 'BEGIN{FS="_";}{print $2;}' | sed 's/[A,B]//g' | sed -e 's/\(.\)/\1 /g'`
-        echo "$key sox --endian $endian -r 16000 -b 16 -t raw -e signed-integer $f -t wav --endian little - |" >> $dir/wav.scp
+        echo "$key sox --endian $endian -r 8000 -b 16 -t raw -e signed-integer $f -t wav --endian little - |" >> $dir/wav.scp
         echo "$key $spk" >> $dir/utt2spk
         echo "$key $text" >> $dir/text
       done
@@ -90,8 +91,9 @@ for t in A B C; do
   done
 done
 
-# spk2utt
+# spk2utt and fix order
 for d in `ls -d data/Aurora2*`; do
   ./utils/utt2spk_to_spk2utt.pl $d/utt2spk > $d/spk2utt
+  ./utils/fix_data_dir.sh $d
 done
 echo "Data preparation succeeded"
