@@ -9,26 +9,29 @@ training=Clean
 tr=${training}90
 cv=${training}Dev10
 aurora2=/usr/local/corpus/aurora2
+# 原本的光碟是"big", 這份是"little"
+endian=little
 #training=Multi
 #training_dev=MultiDev10
 [ -f ./path.sh ] && . ./path.sh; # source the path.
 . parse_options.sh || exit 1;
 
 if [ $stage -le -2 ]; then
-./local/aurora2_prep_data.sh $aurora2 || exit 1;
+./local/aurora2_prep_data.sh --endian $endian $aurora2 || exit 1;
 fi
 if [ $stage -le -1 ]; then
 for s in Aurora2.TR.Clean Aurora2.TR.Multi $(for i in A1 A2 A3 A4 B1 B2 B3 B4 C1 C2; do for j in C +20 +15 +10 +5 +0 -5; do echo Aurora2.TS.$i$j; done; done); do
-  #抽mfcc特徵
+  # 抽mfcc特徵
   steps/make_mfcc.sh --nj 8 data/${s} exp/make_mfcc/${s} data/${s}/data || exit 1;
-  #求cmvn mean var
+  # 求cmvn mean var
   steps/compute_cmvn_stats.sh --fake data/${s} exp/make_mfcc/cmvn_${s} data/${s}/data || exit 1;
 done
-#分割
+# 分割
   ./utils/subset_data_dir_tr_cv.sh --cv-utt-percent 10 data/Aurora2.TR.Clean data/Aurora2.TR.Clean90 data/Aurora2.TR.CleanDev10
   ./utils/subset_data_dir_tr_cv.sh --cv-utt-percent 10 data/Aurora2.TR.Multi data/Aurora2.TR.Multi90 data/Aurora2.TR.MultiDev10
 
 # make fbank features
+# 沒有執行CNN,用不到
 #mkdir -p data-fbank
 #for s in Aurora2.TR.Clean Aurora2.TR.Multi $(for i in A1 A2 A3 A4 B1 B2 B3 B4 C1 C2; do for j in C +20 +15 +10 +5 +0 -5; do echo Aurora2.TS.$i$j; done; done); do
 #  cp -r data/${s} data-fbank/${s}
@@ -86,20 +89,20 @@ steps/align_si.sh  --nj 8 \
 fi
 
 echo "Now begin train DNN systems on ${training} data"
-. ./path.sh
 
 #RBM pretrain
 if [ $stage -le 7 ]; then
-rm -r exp/tri3a_${training}_dnn_pretrain
-rm -r exp/tri3a_${training}_dnn
+[ -d exp/tri3a_${training}_dnn_pretrain ] && rm -r exp/tri3a_${training}_dnn_pretrain
+[ -d exp/tri3a_${training}_dnn ] && rm -r exp/tri3a_${training}_dnn
 dir=exp/tri3a_${training}_dnn_pretrain
-$cuda_cmd $dir/_pretrain_dbn.log \
+[ ! -d $dir ] && mkdir -p $dir/log
+$cuda_cmd $dir/log/pretrain_dbn.log \
   steps/nnet/pretrain_dbn.sh --nn-depth 4 --hid-dim 512 --rbm-iter 3 data/Aurora2.TR.${training} $dir
 fi
 
 dir=exp/tri3a_${training}_dnn
-ali=exp/tri2b_${training}_ali
-ali_dev=exp/tri2b_${training}_ali_dev
+ali=exp/tri2b_${tr}_ali
+ali_dev=exp/tri2b_${cv}_ali_dev
 feature_transform=exp/tri3a_${training}_dnn_pretrain/final.feature_transform
 dbn=exp/tri3a_${training}_dnn_pretrain/4.dbn
 if [ $stage -le 8 ]; then
@@ -109,18 +112,12 @@ if [ $stage -le 8 ]; then
 fi
 
 if [ $stage -le 9 ]; then
-
-  if [ ! -f exp/tri3a_${training}_dnn/graph/HCLG.fst ]; then
-    utils/mkgraph.sh data/lang exp/tri3a_${training}_dnn exp/tri3a_${training}_dnn/graph || exit 1;
-  fi
-
   dnndir=exp/tri3a_${training}_dnn
-
   for test in $(for i in A1 A2 A3 A4 B1 B2 B3 B4 C1 C2; do for j in C +20 +15 +10 +5 +0 -5; do echo Aurora2.TS.$i$j; done; done); do
     echo $test
   # dnn
   steps/nnet/decode.sh --nj 4 --acwt 0.10 --use-gpu yes --config conf/decode_dnn.config \
-    exp/tri3a_${training}_dnn/graph data/$test $dnndir/decode_$test || exit 1;  #error rate
+    exp/tri2b_${training}/graph data/$test $dnndir/decode_$test || exit 1;  #error rate
 done
 
 fi

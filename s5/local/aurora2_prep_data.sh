@@ -1,13 +1,17 @@
 #!/bin/bash
 
-if [ $# -ne 1 ]; then
-   echo "Argument should be the aurora2 directory, see ../run.sh for example."
-   exit 1;
-fi
 # 原本光碟是big, 這份用little
 endian=little
-aurora2=$1
 tmpdir=`pwd`/data/local/data
+[ -f ./path.sh ] && . ./path.sh; # source the path.
+. parse_options.sh || exit 1;
+
+if [ $# != 1 ]; then
+  echo "Usage: ./local/aurora2_prep_data.sh [options] <aurora2_dir>";
+  exit 1;
+fi
+
+aurora2=$1
 mkdir -p $tmpdir
 rootdir=$aurora2/SPEECHDATA
 
