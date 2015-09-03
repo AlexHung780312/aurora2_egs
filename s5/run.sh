@@ -24,7 +24,7 @@ for s in Aurora2.TR.Clean Aurora2.TR.Multi $(for i in A1 A2 A3 A4 B1 B2 B3 B4 C1
   # 抽mfcc特徵
   steps/make_mfcc.sh --nj 8 data/${s} exp/make_mfcc/${s} data/${s}/data || exit 1;
   # 求cmvn mean var
-  steps/compute_cmvn_stats.sh --fake data/${s} exp/make_mfcc/cmvn_${s} data/${s}/data || exit 1;
+  steps/compute_cmvn_stats.sh data/${s} exp/make_mfcc/cmvn_${s} data/${s}/data || exit 1;
 done
 # 分割
   ./utils/subset_data_dir_tr_cv.sh --cv-utt-percent 10 data/Aurora2.TR.Clean data/Aurora2.TR.Clean90 data/Aurora2.TR.CleanDev10
