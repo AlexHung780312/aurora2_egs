@@ -57,69 +57,52 @@ steps/train_mono.sh --cmd "$train_cmd" --boost-silence 1.25 --nj 8  \
 fi
 
 if [ $stage -le 2 ]; then
-steps/align_si.sh --cmd "$train_cmd" --boost-silence 1.25 --nj 8  \
+steps/align_si.sh --cmd "$train_cmd" --nj 8  \
    data/Aurora2.TR.${training} data/lang exp/mono0a_${training} exp/mono0a_${training}_ali || exit 1;
-
-steps/train_deltas.sh --cmd "$train_cmd" --boost-silence 1.25 \
-    1500 10000 data/Aurora2.TR.${training} data/lang exp/mono0a_${training}_ali exp/tri1_${training} || exit 1;
-fi
-
-if [ $stage -le 3 ]; then
-steps/align_si.sh --nj 8 --cmd "$train_cmd" \
-  data/Aurora2.TR.${training} data/lang exp/tri1_${training} exp/tri1_${training}_ali || exit 1;
-steps/train_deltas.sh --cmd "$train_cmd" \
-  2000 15000 data/Aurora2.TR.${training} data/lang exp/tri1_${training}_ali exp/tri2a_${training} || exit 1;
-fi
-
-# LDA-MLLT
-if [ $stage -le 4 ]; then
-steps/train_lda_mllt.sh --cmd "$train_cmd" \
-   --splice-opts "--left-context=3 --right-context=3" \
-   2500 20000 data/Aurora2.TR.${training} data/lang exp/tri1_${training}_ali exp/tri2b_${training} || exit 1;
 fi
 
 if [ $stage -le 5 ]; then
-  utils/mkgraph.sh data/lang exp/tri2b_${training} exp/tri2b_${training}/graph || exit 1;
+  utils/mkgraph.sh --mono data/lang exp/mono0a_${training} exp/mono0a_${training}/graph || exit 1;
 fi
 
 if [ $stage -le 6 ]; then
 # 對資料
-steps/align_si.sh  --nj 8 --cmd "$train_cmd" \
-  --use-graphs true data/Aurora2.TR.${tr} data/lang exp/tri2b_${training} exp/tri2b_${tr}_ali || exit 1;
+steps/align_si.sh --cmd "$train_cmd" --nj 8  \
+   data/Aurora2.TR.${tr} data/lang exp/mono0a_${training} exp/mono0a_${tr}_ali || exit 1;
 # 對dev
-steps/align_si.sh  --nj 8 --cmd "$train_cmd" \
-  data/Aurora2.TR.${cv} data/lang exp/tri2b_${training} exp/tri2b_${cv}_ali_dev || exit 1;
+steps/align_si.sh --cmd "$train_cmd" --nj 8  \
+   data/Aurora2.TR.${cv} data/lang exp/mono0a_${cv} exp/mono0a_${cv}_ali || exit 1;
 fi
 
 echo "Now begin train DNN systems on ${training} data"
 
 #RBM pretrain
 if [ $stage -le 7 ]; then
-[ -d exp/tri3a_${training}_dnn_pretrain ] && rm -r exp/tri3a_${training}_dnn_pretrain
-[ -d exp/tri3a_${training}_dnn ] && rm -r exp/tri3a_${training}_dnn
-dir=exp/tri3a_${training}_dnn_pretrain
+[ -d exp/mono0a_${training}_dnn_pretrain ] && rm -r exp/mono0a_${training}_dnn_pretrain
+[ -d exp/mono0a_${training}_dnn ] && rm -r exp/mono0a_${training}_dnn
+dir=exp/mono0a_${training}_dnn_pretrain
 [ ! -d $dir ] && mkdir -p $dir/log
 $cuda_cmd $dir/log/pretrain_dbn.log \
   steps/nnet/pretrain_dbn.sh --nn-depth 4 --hid-dim 512 --rbm-iter 3 data/Aurora2.TR.${training} $dir
 fi
 
-dir=exp/tri3a_${training}_dnn
-ali=exp/tri2b_${tr}_ali
-ali_dev=exp/tri2b_${cv}_ali_dev
-feature_transform=exp/tri3a_${training}_dnn_pretrain/final.feature_transform
-dbn=exp/tri3a_${training}_dnn_pretrain/4.dbn
+dir=exp/mono0a_${training}_dnn
+ali=exp/mono0a_${tr}_ali
+ali_dev=exp/mono0a_${cv}_ali
+feature_transform=exp/mono0a_${training}_dnn_pretrain/final.feature_transform
+dbn=exp/mono0a_${training}_dnn_pretrain/4.dbn
 if [ $stage -le 8 ]; then
   $cuda_cmd $dir/_train_nnet.log \
     steps/nnet/train.sh --feature-transform $feature_transform --dbn $dbn --hid-layers 0 --learn-rate 0.008 \
     data/Aurora2.TR.${tr} data/Aurora2.TR.${cv} data/lang $ali $ali_dev $dir || exit 1;
 fi
-dnndir=exp/tri3a_${training}_dnn
+dnndir=exp/mono0a_${training}_dnn
 if [ $stage -le 9 ]; then
   for test in $(for i in A1 A2 A3 A4 B1 B2 B3 B4 C1 C2; do for j in C +20 +15 +10 +5 +0 -5; do echo Aurora2.TS.$i$j; done; done); do
     echo $test
   # dnn
   steps/nnet/decode.sh --cmd "$decode_cmd" --nj 4 --acwt 0.10 --use-gpu yes --config conf/decode_dnn.config \
-    exp/tri2b_${training}/graph data/$test $dnndir/decode_$test || exit 1;  #error rate
+    exp/mono0a_${training}/graph data/$test $dnndir/decode_$test || exit 1;  #error rate
 done
 
 fi
