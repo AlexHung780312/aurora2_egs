@@ -45,7 +45,9 @@ if [ $stage -le 0 ]; then
 # no_cmvn表示特徵已經正規化，不需要kaldi重新計算cmvn
   if $no_cmvn; then
   for s in Aurora2.TR.Clean90 Aurora2.TR.CleanDev10 Aurora2.TR.Multi90 Aurora2.TR.MultiDev10 $(for i in A1 A2 A3 A4 B1 B2 B3 B4 C1 C2; do for j in C +20 +15 +10 +5 +0 -5; do echo Aurora2.TS.$i$j; done; done); do
-    steps/compute_cmvn_stats.sh --fake data/${s} exp/make_mfcc/cmvn_${s} data/${s}/data
+    if [ -d data/${s} ]; then 
+      steps/compute_cmvn_stats.sh --fake data/${s} exp/make_mfcc/cmvn_${s} data/${s}/data
+    fi
   done
   fi
 fi
