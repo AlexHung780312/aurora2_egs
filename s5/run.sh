@@ -18,6 +18,7 @@ endian=little
 
 if [ $stage -le -2 ]; then
 ./local/aurora2_prep_data.sh --endian $endian $aurora2 || exit 1;
+exit 0;
 fi
 if [ $stage -le -1 ]; then
 for s in Aurora2.TR.Clean Aurora2.TR.Multi $(for i in A1 A2 A3 A4 B1 B2 B3 B4 C1 C2; do for j in C +20 +15 +10 +5 +0 -5; do echo Aurora2.TS.$i$j; done; done); do
