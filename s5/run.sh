@@ -71,7 +71,7 @@ steps/align_si.sh --cmd "$train_cmd" --nj 8  \
    data/Aurora2.TR.${tr} data/lang exp/mono0a_${training} exp/mono0a_${tr}_ali || exit 1;
 # 對dev
 steps/align_si.sh --cmd "$train_cmd" --nj 8  \
-   data/Aurora2.TR.${cv} data/lang exp/mono0a_${cv} exp/mono0a_${cv}_ali || exit 1;
+   data/Aurora2.TR.${cv} data/lang exp/mono0a_${training} exp/mono0a_${cv}_ali || exit 1;
 fi
 
 echo "Now begin train DNN systems on ${training} data"
