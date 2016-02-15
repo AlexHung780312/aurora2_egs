@@ -6,7 +6,7 @@
 # the number of cpus on your machine.
 
 #a) JHU cluster options
-export train_cmd="queue.pl -l arch=*64"
+export train_cmd="queue.pl -l arch=*64,mem_free=1G"
 export decode_cmd="queue.pl -l arch=*64,mem_free=2G"
 export mkgraph_cmd="queue.pl -q all.q@nv980 -l arch=*64,mem_free=4G"
 export big_memory_cmd="queue.pl -q all.q@nv980 -l arch=*64,mem_free=8G"
