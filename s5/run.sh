@@ -8,7 +8,7 @@ no_cmvn=false
 training=Clean
 tr=${training}90
 cv=${training}Dev10
-aurora2=/usr/local/corpus/aurora2
+aurora2=/share/corpus/aurora2
 # 原本的光碟是"big", 這份是"little"
 endian=little
 #training=Multi
@@ -62,7 +62,7 @@ steps/align_si.sh --cmd "$train_cmd" --nj 8  \
 fi
 if [ $stage -le 3 ]; then
 steps/train_deltas.sh --cmd "$train_cmd" --delta-opts "--delta-order=2" --context-opts "--context-width=1 --central-position=0" \
-  20 40 data/Aurora2.TR.${training} data/lang exp/mono0a_${training}_ali exp/mono1a_${training} || exit 1; # 產生exp/mono0a_Clean or Multi
+  20 400 data/Aurora2.TR.${training} data/lang exp/mono0a_${training}_ali exp/mono1a_${training} || exit 1; # 產生exp/mono0a_Clean or Multi
 fi
 if [ $stage -le 4 ]; then
 $mkgraph_cmd exp/mono1a_${training}/log/mkgraph.log \

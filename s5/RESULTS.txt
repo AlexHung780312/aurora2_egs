@@ -1,0 +1,21 @@
+compute-wer --text --mode=present ark:data/Aurora2.TS.A1+0/text ark,p:- 
+%WER 78.69 [ 2563 / 3257, 230 ins, 861 del, 1472 sub ]
+%SER 91.81 [ 919 / 1001 ]
+Scored 1001 sentences, 0 not present in hyp.
+compute-wer --text --mode=present ark:data/Aurora2.TS.A1+10/text ark,p:- 
+%WER 48.05 [ 1565 / 3257, 564 ins, 61 del, 940 sub ]
+%SER 68.43 [ 685 / 1001 ]
+Scored 1001 sentences, 0 not present in hyp.
+compute-wer --text --mode=present ark:data/Aurora2.TS.A1+15/text ark,p:- 
+%WER 26.25 [ 855 / 3257, 433 ins, 34 del, 388 sub ]
+%SER 48.85 [ 489 / 1001 ]
+Scored 1001 sentences, 0 not present in hyp.
+compute-wer --text --mode=present ark:data/Aurora2.TS.A1+20/text ark,p:- 
+%WER 17.04 [ 555 / 3257, 366 ins, 28 del, 161 sub ]
+%SER 37.36 [ 374 / 1001 ]
+Scored 1001 sentences, 0 not present in hyp.
+compute-wer --text --mode=present ark:data/Aurora2.TS.A1+5/text ark,p:- 
+%WER 67.85 [ 2210 / 3257, 503 ins, 209 del, 1498 sub ]
+%SER 83.52 [ 836 / 1001 ]
+Scored 1001 sentences, 0 not present in hyp.
+
